@@ -399,6 +399,96 @@ const Index = () => {
                 </div>
               </div>
 
+              {/* Перечень групп */}
+              <div className="bg-[#2f3136] border border-[#202225] rounded-lg p-4 sm:p-6">
+                <h2 className="text-lg sm:text-xl font-bold text-white mb-1 flex items-center gap-2">
+                  <Hash className="w-5 h-5 text-[#5865f2]" />
+                  Профессиональные группы
+                </h2>
+                <p className="text-[#8e9297] text-sm mb-4">Выберите сообщество по своей специализации</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[
+                    {
+                      emoji: "💼",
+                      name: "Бизнес и предпринимательство",
+                      desc: "Стратегия, управление, стартапы и инвестиции",
+                      members: "3 400",
+                      tags: ["новости", "кейсы", "нетворкинг"],
+                      color: "from-blue-600 to-blue-800",
+                    },
+                    {
+                      emoji: "⚙️",
+                      name: "Инженеры и разработчики",
+                      desc: "Backend, frontend, DevOps, архитектура систем",
+                      members: "4 100",
+                      tags: ["код", "ревью", "вакансии"],
+                      color: "from-purple-600 to-purple-800",
+                    },
+                    {
+                      emoji: "🎨",
+                      name: "Дизайн и UX",
+                      desc: "Продуктовый дизайн, брендинг, исследования",
+                      members: "2 200",
+                      tags: ["портфолио", "фидбек", "тренды"],
+                      color: "from-pink-600 to-pink-800",
+                    },
+                    {
+                      emoji: "📊",
+                      name: "Маркетинг и продажи",
+                      desc: "Digital, контент, аналитика и growth",
+                      members: "2 700",
+                      tags: ["кампании", "аналитика", "лиды"],
+                      color: "from-orange-600 to-orange-800",
+                    },
+                    {
+                      emoji: "⚖️",
+                      name: "Юристы и финансисты",
+                      desc: "Право, налоги, бухгалтерия и compliance",
+                      members: "1 500",
+                      tags: ["практика", "изменения", "шаблоны"],
+                      color: "from-teal-600 to-teal-800",
+                    },
+                    {
+                      emoji: "🏥",
+                      name: "Медицина и здоровье",
+                      desc: "Медицинские специалисты, исследования, технологии",
+                      members: "1 100",
+                      tags: ["исследования", "практика", "инновации"],
+                      color: "from-green-600 to-green-800",
+                    },
+                  ].map((group) => (
+                    <div
+                      key={group.name}
+                      className="bg-[#36393f] border border-[#40444b] rounded-lg p-4 hover:border-[#5865f2] transition-colors cursor-pointer group"
+                      onClick={() => { setForm(f => ({ ...f, group: group.name })); setShowModal(true); }}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className={`w-10 h-10 bg-gradient-to-br ${group.color} rounded-xl flex items-center justify-center flex-shrink-0 text-xl`}>
+                          {group.emoji}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-2 mb-1">
+                            <h3 className="text-white font-semibold text-sm leading-tight">{group.name}</h3>
+                          </div>
+                          <p className="text-[#b9bbbe] text-xs mb-2 leading-relaxed">{group.desc}</p>
+                          <div className="flex flex-wrap gap-1 mb-2">
+                            {group.tags.map(tag => (
+                              <span key={tag} className="bg-[#2f3136] text-[#8e9297] text-xs px-2 py-0.5 rounded-full">#{tag}</span>
+                            ))}
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-[#72767d] text-xs flex items-center gap-1">
+                              <Users className="w-3 h-3" /> {group.members} участников
+                            </span>
+                            <span className="text-[#5865f2] text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">Вступить →</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               {/* Секция "Как начать" */}
               <div className="bg-[#2f3136] border border-[#202225] rounded-lg p-4 sm:p-6 mt-6 sm:mt-8">
                 <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 flex items-center gap-2">
