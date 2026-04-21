@@ -19,16 +19,110 @@ import {
   BookOpen,
   Shield,
   TrendingUp,
+  CheckCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Icon from "@/components/ui/icon";
 
 const Index = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", profession: "", group: "" });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
 
   return (
     <div className="min-h-screen bg-[#36393f] text-white overflow-x-hidden">
+
+      {/* Модальное окно регистрации */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
+          <div className="bg-[#36393f] rounded-xl w-full max-w-md shadow-2xl border border-[#202225]">
+            <div className="p-6">
+              {submitted ? (
+                <div className="text-center py-6">
+                  <CheckCircle className="w-16 h-16 text-[#3ba55c] mx-auto mb-4" />
+                  <h2 className="text-white text-xl font-bold mb-2">Заявка принята!</h2>
+                  <p className="text-[#b9bbbe] text-sm mb-6">Мы свяжемся с вами в ближайшее время и откроем доступ к сообществу.</p>
+                  <Button className="bg-[#5865f2] hover:bg-[#4752c4] text-white w-full" onClick={() => { setShowModal(false); setSubmitted(false); setForm({ name: "", email: "", profession: "", group: "" }); }}>
+                    Закрыть
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  <div className="flex items-center justify-between mb-5">
+                    <div>
+                      <h2 className="text-white text-xl font-bold">Присоединиться</h2>
+                      <p className="text-[#b9bbbe] text-sm mt-1">Заполните форму — мы откроем доступ</p>
+                    </div>
+                    <button onClick={() => setShowModal(false)} className="text-[#72767d] hover:text-white transition-colors">
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                      <label className="text-[#b9bbbe] text-xs font-semibold uppercase tracking-wide block mb-1.5">Ваше имя</label>
+                      <Input
+                        required
+                        placeholder="Иван Петров"
+                        value={form.name}
+                        onChange={e => setForm({ ...form, name: e.target.value })}
+                        className="bg-[#202225] border-[#202225] text-white placeholder:text-[#72767d] focus:border-[#5865f2] focus:ring-[#5865f2]"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[#b9bbbe] text-xs font-semibold uppercase tracking-wide block mb-1.5">Email</label>
+                      <Input
+                        required
+                        type="email"
+                        placeholder="ivan@company.ru"
+                        value={form.email}
+                        onChange={e => setForm({ ...form, email: e.target.value })}
+                        className="bg-[#202225] border-[#202225] text-white placeholder:text-[#72767d] focus:border-[#5865f2] focus:ring-[#5865f2]"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[#b9bbbe] text-xs font-semibold uppercase tracking-wide block mb-1.5">Профессия</label>
+                      <Input
+                        required
+                        placeholder="Менеджер проектов, дизайнер..."
+                        value={form.profession}
+                        onChange={e => setForm({ ...form, profession: e.target.value })}
+                        className="bg-[#202225] border-[#202225] text-white placeholder:text-[#72767d] focus:border-[#5865f2] focus:ring-[#5865f2]"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[#b9bbbe] text-xs font-semibold uppercase tracking-wide block mb-1.5">Интересующая группа</label>
+                      <Select onValueChange={val => setForm({ ...form, group: val })}>
+                        <SelectTrigger className="bg-[#202225] border-[#202225] text-white focus:ring-[#5865f2]">
+                          <SelectValue placeholder="Выберите сообщество" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#2f3136] border-[#202225] text-white">
+                          <SelectItem value="business">💼 Бизнес</SelectItem>
+                          <SelectItem value="engineers">⚙️ Инженеры</SelectItem>
+                          <SelectItem value="designers">🎨 Дизайнеры</SelectItem>
+                          <SelectItem value="marketing">📊 Маркетинг</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <Button type="submit" className="bg-[#5865f2] hover:bg-[#4752c4] text-white w-full mt-2 py-3 font-medium">
+                      <Users className="w-4 h-4 mr-2" />
+                      Отправить заявку
+                    </Button>
+                  </form>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       {/* Навигация */}
       <nav className="bg-[#2f3136] border-b border-[#202225] px-4 sm:px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -45,7 +139,7 @@ const Index = () => {
             <Button variant="ghost" className="text-[#b9bbbe] hover:text-white hover:bg-[#40444b]">
               О платформе
             </Button>
-            <Button className="bg-[#5865f2] hover:bg-[#4752c4] text-white px-6 py-2 rounded text-sm font-medium">
+            <Button className="bg-[#5865f2] hover:bg-[#4752c4] text-white px-6 py-2 rounded text-sm font-medium" onClick={() => setShowModal(true)}>
               Присоединиться
             </Button>
           </div>
@@ -64,7 +158,7 @@ const Index = () => {
               <Button variant="ghost" className="text-[#b9bbbe] hover:text-white hover:bg-[#40444b] justify-start">
                 О платформе
               </Button>
-              <Button className="bg-[#5865f2] hover:bg-[#4752c4] text-white px-6 py-2 rounded text-sm font-medium">
+              <Button className="bg-[#5865f2] hover:bg-[#4752c4] text-white px-6 py-2 rounded text-sm font-medium" onClick={() => setShowModal(true)}>
                 Присоединиться
               </Button>
             </div>
@@ -337,7 +431,7 @@ const Index = () => {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Button className="bg-[#5865f2] hover:bg-[#4752c4] text-white px-6 sm:px-8 py-2 sm:py-3 rounded text-sm font-medium">
+                  <Button className="bg-[#5865f2] hover:bg-[#4752c4] text-white px-6 sm:px-8 py-2 sm:py-3 rounded text-sm font-medium" onClick={() => setShowModal(true)}>
                     <Users className="w-4 h-4 mr-2" />
                     Присоединиться бесплатно
                   </Button>
